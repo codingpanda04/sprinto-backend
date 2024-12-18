@@ -18,7 +18,10 @@ app.post('/whatsapp', (req, res) => {
         response = 'You’ve joined the sprint!';
     } else if (Body === '/leave') {
         response = 'You’ve left the sprint!';
-    } else {
+    } else if (Body === '/wordcount'){
+        response = 'Your wordcount will be updated soon';
+    }
+    else {
         response = 'Unknown command. Use /sprint, /join, or /leave.';
     }
 
