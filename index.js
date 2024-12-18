@@ -7,25 +7,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // POST endpoint for WhatsApp messages
 app.post('/whatsapp', (req, res) => {
-    console.log(req.body); // Log the entire body to see the incoming data
-
-    const incomingMessage = req.body.Body; // Access the message body
-    console.log(`Received message: ${incomingMessage}`); // Check if the message is being received
+    console.log("Received request:", req.body);  // Log the entire body
+    const incomingMessage = req.body.Body;  // This is the key you need
+    console.log(`Received message: ${incomingMessage}`);  // Log the message
 
     let responseMessage = '';
 
-    // Handle commands
     if (incomingMessage === '/sprint') {
         responseMessage = 'Sprint session started!';
     } else if (incomingMessage === '/join') {
         responseMessage = 'You’ve joined the sprint!';
     } else if (incomingMessage === '/leave') {
         responseMessage = 'You’ve left the sprint!';
-    } else {
+    } else if (incomingMessage === '/wordcount') {
+        responseMessage = 'Update your wordcount now!';
+    }else {
         responseMessage = 'Unknown command. Use /sprint, /join, or /leave.';
     }
 
-    // Construct the Twilio-compatible XML response
     const twiml = `
         <Response>
             <Message>${responseMessage}</Message>
@@ -35,6 +34,7 @@ app.post('/whatsapp', (req, res) => {
     res.set('Content-Type', 'application/xml');
     res.send(twiml);
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
